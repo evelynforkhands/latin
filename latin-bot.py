@@ -10,7 +10,7 @@ class BotHandler:
      def get_updates(self, offset=None, timeout=30):
         method='getUpdates'
         params ={'timeout': timeout, 'offset': offset}
-        response = requests.get(self.api_url + method, params)
+        resp = requests.get(self.api_url + method, params)
         result_json = resp.json()['result']
         return result_json
 
