@@ -1,76 +1,72 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding=utf8
+import requests
+import datetime
 
-"""Simple Bot to reply to Telegram messages.
-This program is dedicated to the public domain under the CC0 license.
-This Bot uses the Updater class to handle the bot.
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-Usage:
-Basic Echobot example, repeats messages.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
-"""
+class BotHandler:
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import logging
+    def __init__(self, ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf):
+        self.ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf = ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf
+        self.api_url = "https://api.telegram.org/bot{}/".format(ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf)
 
-# Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+    def get_updates(self, offset=None, timeout=3):
+        method = 'getUpdates'
+        params = {'timeout': timeout, 'offset': offset}
+        resp = requests.get(self.api_url + method, params)
+        result_json = resp.json()['result']
+        return result_json
 
-logger = logging.getLogger(__name__)
+    def send_message(self, chat_id, text):
+        params = {'chat_id': chat_id, 'text': text}
+        method = 'sendMessage'
+        resp = requests.post(self.api_url + method, params)
+        return resp
 
+    def get_last_update(self):
+        get_result = self.get_updates()
+        
+        if len(get_result) > 0:
+            last_update = get_result[-1]
+        else:
+            last_update = get_result[len(get_result)]
 
-# Define a few command handlers. These usually take the two arguments bot and
-# update. Error handlers also receive the raised TelegramError object in error.
-def start(bot, update):
-    """Send a message when the command /start is issued."""
-    update.message.reply_text('Hi!')
+        return last_update
 
-
-def help(bot, update):
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
-def echo(bot, update):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
-
-
-def error(bot, update, error):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, error)
+greet_bot = BotHandler('745789918:AAG_ChZ_PZTnDk2xry-h1GVVfO2H9XwFyGg')
+greetings = ('hello', 'hi', 'greetings', 'sup', 'Привет', 'здравствуй')
+now = datetime.datetime.now()
 
 
 def main():
-    """Start the bot."""
-    # Create the EventHandler and pass it your bot's token.
-    updater = Updater("745789918:AAG_ChZ_PZTnDk2xry-h1GVVfO2H9XwFyGg")
+    new_offset = None
+    today = now.day
+    hour = now.hour
 
-    # Get the dispatcher to register handlers
-    dp = updater.dispatcher
+    while True:
+        greet_bot.get_updates(new_offset)
 
-    # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
+        last_update = greet_bot.get_last_update()
+                
+        last_update_id = last_update['update_id']
+        last_chat_text = last_update['message']['text']
+        last_chat_id = last_update['message']['chat']['id']
+        last_chat_name = last_update['message']['chat']['first_name']
 
-    # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, echo))
+        if last_chat_text.lower() in greetings and today == now.day and 6 <= hour < 12:
+            greet_bot.send_message(last_chat_id, 'Good Morning  {}'.format(last_chat_name))
+            today += 1
 
-    # log all errors
-    dp.add_error_handler(error)
+        elif last_chat_text.lower() in greetings and today == now.day and 12 <= hour < 17:
+            greet_bot.send_message(last_chat_id, 'Good Afternoon {}'.format(last_chat_name))
+            today += 1
 
-    # Start the Bot
-    updater.start_polling()
+        elif last_chat_text.lower() in greetings and today == now.day and 17 <= hour < 23:
+            greet_bot.send_message(last_chat_id, 'Good Evening  {}'.format(last_chat_name))
+            today += 1
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
-    updater.idle()
-
+        new_offset = last_update_id + 1
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit()
