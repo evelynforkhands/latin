@@ -45,7 +45,7 @@ def main():
         greet_bot.get_updates(new_offset)
 
         last_update = greet_bot.get_last_update()
-        if last_update is not None
+        if last_update is not None:
                     
             last_update_id = last_update['update_id']
             last_chat_text = last_update['message']['text']
