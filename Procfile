@@ -1,1 +1,1 @@
-web: python latin-bot.py
+worker: python latin-bot.py
