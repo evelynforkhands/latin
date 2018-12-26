@@ -48,8 +48,8 @@ def main():
     hour = now.hour
 
     while True:
-        if get_last_update_id >= 99:
-            new_offset = get_last_update_id
+        if get_last_update_id() >= 99:
+            new_offset = get_last_update_id()
 
         greet_bot.get_updates(new_offset)
 
