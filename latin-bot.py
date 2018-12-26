@@ -31,6 +31,12 @@ class BotHandler:
 
         return last_update
 
+    def get_last_update_id(self):
+        get_result = self.get_updates()
+
+        return len(get_result)
+
+
 greet_bot = BotHandler('745789918:AAG_ChZ_PZTnDk2xry-h1GVVfO2H9XwFyGg')
 greetings = ('hello', 'hi', 'greetings', 'sup', 'Привет', 'здравствуй')
 now = datetime.datetime.now()
@@ -42,6 +48,9 @@ def main():
     hour = now.hour
 
     while True:
+        if get_last_update_id >= 99:
+            new_offset = get_last_update_id
+
         greet_bot.get_updates(new_offset)
 
         last_update = greet_bot.get_last_update()
@@ -63,7 +72,7 @@ def main():
             greet_bot.send_message(last_chat_id, 'Good Evening  {}'.format(last_chat_name))
             today += 1
 
-        new_offset = last_update_id + 1
+        #new_offset = last_update_id + 1
 
 if __name__ == '__main__':
     try:
