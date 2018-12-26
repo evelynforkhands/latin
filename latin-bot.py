@@ -31,10 +31,6 @@ class BotHandler:
 
         return last_update
 
-    def get_last_update_id(self):
-        get_result = self.get_updates()
-
-        return len(get_result)
 
 
 greet_bot = BotHandler('745789918:AAG_ChZ_PZTnDk2xry-h1GVVfO2H9XwFyGg')
@@ -43,13 +39,15 @@ now = datetime.datetime.now()
 
 
 def main():
+    
     new_offset = None
     today = now.day
     hour = now.hour
 
     while True:
-        if get_last_update_id() >= 99:
-            new_offset = get_last_update_id()
+
+        if len(greet_bot.get_updates()) >= 99:
+            new_offset = len(greet_bot.get_updates())
 
         greet_bot.get_updates(new_offset)
 
