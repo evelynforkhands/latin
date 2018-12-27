@@ -1,7 +1,6 @@
 # coding=utf8
 import requests
 import datetime
-import time
 
 class BotHandler:
 
@@ -69,7 +68,6 @@ def main():
             greet_bot.send_message(last_chat_id, 'Good Evening  {}'.format(last_chat_name))
             today += 1
 
-        time.sleep(0.5)
         new_offset=last_update_id + 1
 
 if __name__ == '__main__':
