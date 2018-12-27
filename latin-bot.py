@@ -5,8 +5,6 @@ import requests
 import time
 import urllib
 
-import config
-
 
 wiuyakurgskhjgfkhfgksjhfgdd = '692224945:AAH9yaX_jp7o6hskjTnMet5N6KgLt20wywM'
 URL = "https://api.telegram.org/bot{}/".format(wiuyakurgskhjgfkhfgksjhfgdd)
