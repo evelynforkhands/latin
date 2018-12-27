@@ -1,6 +1,7 @@
 # coding=utf8
 import requests
 import datetime
+import time
 
 class BotHandler:
 
@@ -8,7 +9,7 @@ class BotHandler:
         self.ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf = ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf
         self.api_url = "https://api.telegram.org/bot{}/".format(ewkhealjkwheljkheljheljkfbbfksjfkjsfbkf)
 
-    def get_updates(self, offset=None, timeout=30):
+    def get_updates(self, offset=None, timeout=1):
         method = 'getUpdates'
         params = {'timeout': timeout, 'offset': offset}
         resp = requests.get(self.api_url + method, params)
@@ -33,14 +34,14 @@ class BotHandler:
 
 
 
-greet_bot = BotHandler('745789918:AAG_ChZ_PZTnDk2xry-h1GVVfO2H9XwFyGg')
+greet_bot = BotHandler('692224945:AAH9yaX_jp7o6hskjTnMet5N6KgLt20wywM')
 greetings = ('hello', 'hi', 'greetings', 'sup', 'Привет', 'здравствуй')
 now = datetime.datetime.now()
 
 
 def main():
 
-    new_offset = 0
+    new_offset = None
     today = now.day
     hour = now.hour
 
@@ -68,7 +69,8 @@ def main():
             greet_bot.send_message(last_chat_id, 'Good Evening  {}'.format(last_chat_name))
             today += 1
 
-        new_offset+=1
+        time.sleep(0.5)
+        new_offset=last_update_id + 1
 
 if __name__ == '__main__':
     try:
