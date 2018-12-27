@@ -1,1 +1,1 @@
-worker: python latin-bot.py runserver 0.0.0.0:8000
+web: python latin-bot.py runserver 0.0.0.0:$PORT
