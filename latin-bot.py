@@ -39,9 +39,13 @@ def get_last_update_id(updates):
 
 def echo_all(updates):
     for update in updates["result"]:
-        text = update["message"]["text"]
         chat = update["message"]["chat"]["id"]
-        send_message(text, chat)
+        try:
+            text = update["message"]["text"]
+            send_message(text, chat)
+        except:
+            sticker=update["message"]["sticker"]["file_id"]
+            send_sticker(sticker, chat_id)
 
 
 def get_last_chat_id_and_text(updates):
@@ -55,6 +59,10 @@ def get_last_chat_id_and_text(updates):
 def send_message(text, chat_id):
     text = urllib.parse.quote_plus(text)
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
+    get_url(url)
+
+def send_sticker(sticker_file_id, chat_id):
+    url = URL + "sendSticker?sticker={}&chat_id={}".format(sticker_file_id, chat_id)
     get_url(url)
 
 
