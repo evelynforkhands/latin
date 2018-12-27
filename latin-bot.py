@@ -45,7 +45,7 @@ def echo_all(updates):
             send_message(text, chat)
         except:
             sticker=update["message"]["sticker"]["file_id"]
-            send_sticker(sticker, chat_id)
+            send_sticker(sticker, chat)
 
 
 def get_last_chat_id_and_text(updates):
